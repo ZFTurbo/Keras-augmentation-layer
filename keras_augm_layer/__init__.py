@@ -297,6 +297,7 @@ class RandomCrop():
                 crop_width = tf.random.uniform([1], min_width_size, max_width_size, dtype=tf.int32)[0]
                 var = tf.stack([crop_height, crop_width, ch])
                 img2 = tf.random_crop(img1, var)
+                img2 = tf.image.resize(img2, size=(height, width))
                 return img2
 
             img2 = tf.cond(coin, lambda: apply_augm(img1), lambda: img1)

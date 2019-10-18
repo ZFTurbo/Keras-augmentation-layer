@@ -57,7 +57,7 @@ def check_augmentation_net(image_files, augm_per_image, output_directory):
         ResizeImage(width=256, height=256)
     ]
 
-    transforms = transforms_all[:2]
+    transforms = transforms_all
 
     inp = Input((None, None, 3))
     x = AugmLayer(transforms, output_dim=(256, 256, 3), preproc_input=None)(inp, training=True)
