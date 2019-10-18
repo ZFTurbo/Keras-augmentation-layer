@@ -88,7 +88,7 @@ for i in range(augm_images.shape[0]):
     show_image(augm_images[i])
 ```
 
-You can use this script for debug: [check_augmentations.py]()
+You can use this script for debug: [check_augmentations.py](https://github.com/ZFTurbo/Keras-augmentation-layer/blob/master/check_augmentations.py)
 
 # Saving trained model
 
@@ -103,8 +103,8 @@ model.save(...)
 
 # Benchmark
 
-- Script 1: [Benchmark CPU (Albumentations)]()
-- Script 2: [Benchmark GPU (AugmLayer)]()
+- Script 1: [Benchmark CPU (Albumentations)](https://github.com/ZFTurbo/Keras-augmentation-layer/blob/master/benchmarks/benchmark_cpu_albumentations.py)
+- Script 2: [Benchmark GPU (AugmLayer)](https://github.com/ZFTurbo/Keras-augmentation-layer/blob/master/benchmarks/benchmark_gpu_augm.py)
 
 * GPU: 1080Ti + CPU: 6 Core Intel
 * Input images shape: (512, 512, 3)
