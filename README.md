@@ -6,6 +6,10 @@ Keras implementation of layer which performs augmentations of images using GPU. 
 
 Python 3.\*, Keras 2.\*, tensorflow 1.14
 
+# Installation
+
+`pip install keras-augm-layer`
+
 # Usage
 
 You need to define initial model, then choose set of transforms and add AugmLayer as first layer of your model. See example below:
