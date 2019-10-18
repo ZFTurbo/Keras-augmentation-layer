@@ -7,7 +7,7 @@ import glob
 
 if __name__ == '__main__':
     # Block to choose backend
-    gpu_use = 1
+    gpu_use = 0
     os.environ["KERAS_BACKEND"] = "tensorflow"
     os.environ["CUDA_VISIBLE_DEVICES"] = "{}".format(gpu_use)
     print('GPU use: {}'.format(gpu_use))
