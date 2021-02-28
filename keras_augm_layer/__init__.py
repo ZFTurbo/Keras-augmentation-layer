@@ -2,6 +2,7 @@
 __author__ = 'Roman Solovyev (ZFTurbo), IPPM RAS, https://kaggle.com/zfturbo'
 
 import tensorflow as tf
+import tensorflow_addons as tfa
 from keras.layers import Layer
 from keras import backend as K
 
