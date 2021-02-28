@@ -2,6 +2,7 @@
 __author__ = 'Roman Solovyev (ZFTurbo), IPPM RAS, https://kaggle.com/zfturbo'
 
 import tensorflow as tf
+import tensorflow_addons as tfa
 from keras.layers import Layer
 from keras import backend as K
 
@@ -28,7 +29,7 @@ class HorizontalFlip():
 
     def __call__(self, img, **kwargs):
         batch_size = tf.shape(img)[0]
-        flips = tf.less(tf.random_uniform([batch_size], 0, 1.0, dtype=tf.float32), self.p)
+        flips = tf.less(tf.random.uniform([batch_size], 0, 1.0, dtype=tf.float32), self.p)
         flips = tf.reshape(flips, [batch_size, 1, 1, 1])
         flips = tf.cast(flips, img.dtype)
         flipped_input = tf.reverse(img, [2])
@@ -47,7 +48,7 @@ class VerticalFlip():
 
     def __call__(self, img, **kwargs):
         batch_size = tf.shape(img)[0]
-        flips = tf.less(tf.random_uniform([batch_size], 0, 1.0), self.p)
+        flips = tf.less(tf.random.uniform([batch_size], 0, 1.0), self.p)
         flips = tf.reshape(flips, [batch_size, 1, 1, 1])
         flips = tf.cast(flips, img.dtype)
         flipped_input = tf.reverse(img, [1])
@@ -71,12 +72,12 @@ class RandomRotate():
     def __call__(self, img, **kwargs):
         shp = tf.shape(img)
         batch_size, height, width = shp[0], shp[1], shp[2]
-        coin = tf.less(tf.random_uniform([batch_size], 0, 1.0), self.p)
+        coin = tf.less(tf.random.uniform([batch_size], 0, 1.0), self.p)
         angle_rad = self.angle * 3.141592653589793 / 180.0
-        angles = tf.random_uniform([batch_size], -angle_rad, angle_rad)
+        angles = tf.random.uniform([batch_size], -angle_rad, angle_rad)
         angles *= tf.cast(coin, tf.float32)
-        f = tf.contrib.image.angles_to_projective_transforms(angles, tf.cast(height, tf.float32), tf.cast(width, tf.float32))
-        augm_img = tf.contrib.image.transform(img, f, interpolation='BILINEAR')
+        f = tfa.image.angles_to_projective_transforms(angles, tf.cast(height, tf.float32), tf.cast(width, tf.float32))
+        augm_img = tfa.image.transform(img, f, interpolation='BILINEAR')
         return augm_img
 
 
@@ -91,7 +92,7 @@ class RandomRotate90():
 
     def __call__(self, img, **kwargs):
         batch_size = tf.shape(img)[0]
-        coin = tf.less(tf.random_uniform([batch_size], 0, 1.0, dtype=tf.float32), self.p)
+        coin = tf.less(tf.random.uniform([batch_size], 0, 1.0, dtype=tf.float32), self.p)
         coin = tf.reshape(coin, [batch_size, 1, 1, 1])
         coin = tf.cast(coin, img.dtype)
 
@@ -210,7 +211,6 @@ class RGBShift():
 
 class ToGray():
     """Convert the input RGB image to grayscale.
-
     Args:
         p (float): probability of applying the transform. Default: 0.5.
     """
@@ -237,7 +237,6 @@ class ToGray():
 
 class JpegCompression():
     """Random Jpeg compression of an image.
-
     Args:
         quality_lower (float): lower bound on the jpeg quality. Should be in [0, 100] range
         quality_upper (float): lower bound on the jpeg quality. Should be in [0, 100] range
@@ -382,7 +381,7 @@ class RandomGaussNoise():
             def apply_augm(img1):
                 noise_mean = tf.random.uniform([1], self.vl0, self.vl1, dtype=tf.float32)[0]
                 noise_std = noise_mean ** 0.5
-                noise = tf.random_normal(shape=tf.shape(img1), mean=noise_mean, stddev=noise_std, dtype=tf.float32)
+                noise = tf.random.normal(shape=tf.shape(img1), mean=noise_mean, stddev=noise_std, dtype=tf.float32)
                 noise -= tf.reduce_min(noise)
                 img2 = img1 + noise
                 return img2
