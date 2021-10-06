@@ -4,7 +4,7 @@ Keras implementation of layer which performs augmentations of images using GPU. 
 
 # Requirements
 
-Python 3.\*, Keras 2.\*, tensorflow>=1.13
+Python 3.\*, numpy, tensorflow>=2.5.0, tensorflow_addons>=0.14.0
 
 # Installation
 
