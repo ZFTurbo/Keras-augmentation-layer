@@ -36,6 +36,9 @@ class HorizontalFlip():
         im = flips * flipped_input + (1 - flips) * img
         return im
 
+    def __name__(self):
+        return f"HorizontalFlip(p={self.p})"
+
 
 class VerticalFlip():
     """Flip the input vertically around the x-axis.
@@ -54,6 +57,9 @@ class VerticalFlip():
         flipped_input = tf.reverse(img, [1])
         im = flips * flipped_input + (1 - flips) * img
         return im
+
+    def __name__(self):
+        return f"VerticalFlip"
 
 
 class RandomRotate():
@@ -79,6 +85,9 @@ class RandomRotate():
         f = tfa.image.angles_to_projective_transforms(angles, tf.cast(height, tf.float32), tf.cast(width, tf.float32))
         augm_img = tfa.image.transform(img, f, interpolation='BILINEAR')
         return augm_img
+
+    def __name__(self):
+        return f"RandomRotate"
 
 
 class RandomRotate90():
@@ -114,6 +123,9 @@ class RandomRotate90():
         ret = coin * augm_input + (1 - coin) * img
         return ret
 
+    def __name__(self):
+        return f"RandomRotate90"
+
 
 class RandomBrightness():
     """Adjust the brightness of images by a random factor.
@@ -140,6 +152,9 @@ class RandomBrightness():
 
         augm_img = tf.map_fn(random_brightness_single_image, img)
         return augm_img
+
+    def __name__(self):
+        return f"RandomBrightness"
 
 
 class RandomContrast():
@@ -168,6 +183,9 @@ class RandomContrast():
 
         augm_img = tf.map_fn(random_contrast_single_image, img)
         return augm_img
+
+    def __name__(self):
+        return f"RandomContrast"
 
 
 class RGBShift():
@@ -207,6 +225,8 @@ class RGBShift():
         augm_img = tf.map_fn(random_rgbshift_single_image, img)
         augm_img = tf.clip_by_value(augm_img, 0, 255)
         return augm_img
+    def __name__(self):
+        return f"RGBShift"
 
 
 class ToGray():
@@ -234,6 +254,8 @@ class ToGray():
         augm_img = tf.map_fn(random_gray_image, img)
         return augm_img
 
+    def __name__(self):
+        return f"ToGray"
 
 class JpegCompression():
     """Random Jpeg compression of an image.
@@ -261,6 +283,9 @@ class JpegCompression():
 
         augm_img = tf.map_fn(random_jpeg_compress_image, img)
         return augm_img
+
+    def __name__(self):
+        return f"JPEGCompression"
 
 
 class RandomCrop():
@@ -305,6 +330,9 @@ class RandomCrop():
         augm_img = tf.map_fn(random_crop_single_image, img)
         return augm_img
 
+    def __name__(self):
+        return f"RandomCrop"
+
 
 class RandomHue():
     """Adjust the hue of images by a random factor.
@@ -330,6 +358,9 @@ class RandomHue():
 
         augm_img = tf.map_fn(random_hue_single_image, img)
         return augm_img
+
+    def __name__(self):
+        return f"RandomHue"
 
 
 class RandomSaturation():
@@ -358,6 +389,9 @@ class RandomSaturation():
 
         augm_img = tf.map_fn(random_saturation_single_image, img)
         return augm_img
+
+    def __name__(self):
+        return f"RandomSaturation"
 
 
 class RandomGaussNoise():
@@ -393,6 +427,9 @@ class RandomGaussNoise():
         augm_img = tf.clip_by_value(augm_img, 0, 255)
         return augm_img
 
+    def __name__(self):
+        return f"RandomGaussNoise"
+
 
 class ResizeImage():
     """Resize image.
@@ -413,6 +450,9 @@ class ResizeImage():
             img = tf.image.resize(img, size=self.size)
         return img
 
+    def __name__(self):
+        return f"ResizeImage"
+
 
 class ReadImage():
     """Read and decode image with tensorflow.
@@ -428,6 +468,9 @@ class ReadImage():
 
         augm_img = tf.map_fn(read_single_image, img)
         return tf.cast(augm_img, dtype=tf.float32)
+
+    def __name__(self):
+        return f"ReadImage"
 
 
 def augment(inputs, transforms):
@@ -469,3 +512,14 @@ class AugmLayer(Layer):
             return input_shape
         else:
             return (None, ) + self.output_dim
+
+    def get_config(self):
+
+        config = super().get_config().copy()
+        config.update({
+            'output_dim': self.output_dim,
+            'transforms': self.transforms,
+            'preproc_input': self.preproc_input,
+
+        })
+        return config
