@@ -13,10 +13,10 @@ if __name__ == '__main__':
     print('GPU use: {}'.format(gpu_use))
 
 
-from keras.optimizers import SGD, Adam
-from keras.applications.mobilenet import MobileNet, preprocess_input
-from keras.layers.core import Dense
-from keras.models import Model
+from tensorflow.keras.optimizers import SGD, Adam
+from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Model
 import pandas as pd
 import numpy as np
 from keras_augm_layer import *
@@ -85,9 +85,9 @@ def get_many_transforms():
 
 def get_augm_model(base_model, transforms):
     global BATCH_SIZE, MOBILENET_ALFA
-    from keras.layers import Input
-    from keras.models import Model
-    from keras.applications.mobilenet import preprocess_input
+    from tensorflow.keras.layers import Input
+    from tensorflow.keras.models import Model
+    from tensorflow.keras.applications.mobilenet import preprocess_input
 
     inp = Input((None, None, 3))
     x = AugmLayer(transforms, output_dim=INPUT_SHAPE, preproc_input=preprocess_input)(inp, training=True)
@@ -98,7 +98,7 @@ def get_augm_model(base_model, transforms):
 
 def train_mobile_net_gpu_augm(transforms):
     global BATCH_SIZE, MOBILENET_ALFA, INPUT_IMAGES_SHAPE
-    from keras.callbacks import CSVLogger
+    from tensorflow.keras.callbacks import CSVLogger
     batch_size = BATCH_SIZE
     nb_epoch = 10
     optimizer = 'Adam'

@@ -1,10 +1,10 @@
 # coding: utf-8
 __author__ = 'Roman Solovyev (ZFTurbo), IPPM RAS, https://kaggle.com/zfturbo'
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import tensorflow_addons as tfa
-from keras.layers import Layer
-from keras import backend as K
+from tensorflow.keras.layers import Layer
+from tensorflow.keras import backend as K
 
 
 def to_tuple(param, low=None):

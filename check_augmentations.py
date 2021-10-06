@@ -29,8 +29,8 @@ def show_image(im, name='image'):
 
 
 def check_augmentation_net(image_files, augm_per_image, output_directory):
-    from keras.layers import Input
-    from keras.models import Model
+    from tensorflow.keras.layers import Input
+    from tensorflow.keras.models import Model
 
     images = []
     for f in image_files:
@@ -82,6 +82,7 @@ def check_augmentation_net(image_files, augm_per_image, output_directory):
 
 if __name__ == '__main__':
     image_files = glob.glob("../input/*.jpg")
+    print('Images found: {}'.format(len(image_files)))
     augm_per_image = 10
 
     # If output_directory is None will show images on screen, otherwise write in specified directory

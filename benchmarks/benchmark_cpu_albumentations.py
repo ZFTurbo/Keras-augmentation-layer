@@ -8,22 +8,22 @@ import glob
 
 if __name__ == '__main__':
     # Block to choose backend
-    gpu_use = 2
+    gpu_use = 4
     os.environ["KERAS_BACKEND"] = "tensorflow"
     os.environ["CUDA_VISIBLE_DEVICES"] = "{}".format(gpu_use)
     print('GPU use: {}'.format(gpu_use))
 
 
-from keras.optimizers import SGD, Adam
-from keras.applications.mobilenet import MobileNet, preprocess_input
-from keras.layers.core import Dense
-from keras.models import Model
-from albumentations import *
+from tensorflow.keras.optimizers import SGD, Adam
+from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Model
 import pandas as pd
 from multiprocessing.pool import ThreadPool
 from keras_augm_layer import *
 import cv2
 import numpy as np
+from albumentations import *
 
 
 def filp_aug(p=1.0):
@@ -101,7 +101,7 @@ def batch_generator_train_cpu(X_train, Y_train, batch_size, prep_input):
 
 def train_mobile_net_cpu_augm():
     global BATCH_SIZE, MOBILENET_ALFA, INPUT_SHAPE, INPUT_IMAGES_SHAPE
-    from keras.callbacks import CSVLogger
+    from tensorflow.keras.callbacks import CSVLogger
     batch_size = BATCH_SIZE
     nb_epoch = 10
     optimizer = 'Adam'
@@ -117,7 +117,7 @@ def train_mobile_net_cpu_augm():
     base_model = MobileNet(INPUT_SHAPE, depth_multiplier=1, alpha=alpha, include_top=False, pooling='avg', weights='imagenet')
     x = base_model.output
     x = Dense(1, activation='sigmoid', name='predictions')(x)
-    model = Model(input=base_model.input, output=x)
+    model = Model(inputs=base_model.input, outputs=x)
     # print(model.summary())
 
     if optimizer == 'SGD':
@@ -146,7 +146,7 @@ if __name__ == '__main__':
     INPUT_IMAGES_SHAPE = (512, 512, 3)
     INPUT_SHAPE = (224, 224, 3)
     MOBILENET_ALFA = 1.0
-    THREADS = 1
+    THREADS = 4
     MAX_QUEUE_SIZE = 10
 
     # GLOBAL_AUG = filp_aug(p=1.0)
